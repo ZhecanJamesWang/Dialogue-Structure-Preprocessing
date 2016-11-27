@@ -70,18 +70,6 @@ class PreProcess(object):
 
     def filter(self, line):
         content = ""
-        # for word in line:
-        #     if self.ishan(word):
-        #         content += word
-        #     elif word.strip().isalpha():
-        #         content += word
-        #     elif word.strip() == "@":
-        #         content += word.strip() 
-        #     elif word.strip().isdigit():
-        #         content += word.strip()
-        #     else:
-        #         content += " "
-
         for i in range(len(line)):
             word = line[i]
             if self.ishan(word):
@@ -124,38 +112,35 @@ class PreProcess(object):
         for record in self.cursor:
             if "content" in record:
                 content = record["content"]
-                print "content"
-                print content
-                break                
-        #         content = self.filter(content)
+                content = self.filter(content)
 
-        #         comments = []
-        #         if "comments" in record:
-        #             preComment = None
-        #             for comment in record['comments']:
-        #                 if preComment != comment:
-        #                     preComment = comment
-        #                     comment = self.filter(comment['content'])
-        #                     comments.append(comment)
+                comments = []
+                if "comments" in record:
+                    preComment = None
+                    for comment in record['comments']:
+                        if preComment != comment:
+                            preComment = comment
+                            comment = self.filter(comment['content'])
+                            comments.append(comment)
                         
-        #         if content != self.preContent:
-        #             self.contentList.append(content)
-        #             if len(comments) != 0:
-        #                 self.contentList.extend(comments)
-        #                 self.counter += len(comments)
-        #             self.preContent = content
-        #             self.counter += 1
+                if content != self.preContent:
+                    self.contentList.append(content)
+                    if len(comments) != 0:
+                        self.contentList.extend(comments)
+                        self.counter += len(comments)
+                    self.preContent = content
+                    self.counter += 1
 
 
-        #     if self.counter%100 == 0:
-        #         print "counter: ", self.counter
-        #         self.writeToFile()
-        #         self.contentList = []
+            if self.counter%100 == 0:
+                print "counter: ", self.counter
+                self.writeToFile()
+                self.contentList = []
 
-        # if len(self.contentList) != 0:
-        #     self.writeToFile()
-        #     print "final counter: ", self.counter
-        # print "finish writing to file"
+        if len(self.contentList) != 0:
+            self.writeToFile()
+            print "final counter: ", self.counter
+        print "finish writing to file"
 
 
 
