@@ -30,15 +30,17 @@ class PreProcess(object):
         self.client = MongoClient()
         print "database names: ", self.client.database_names()
  
-        if conf["databaseName"] == "edu":
-            self.db = self.client.sinaweiboEdu
-            self.outputName = "eduWeiboContent"
-        elif conf["databaseName"] == "tech":
-            self.db = self.client.sinaweibo
-            self.outputName = "techWeiboContent"
-        else:
-            raise Exception("Given database name does not exist")
+        # if conf["databaseName"] == "edu":
+        #     self.db = self.client.sinaweiboEdu
+        #     self.outputName = "eduWeiboContent"
+        # elif conf["databaseName"] == "tech":
+        #     self.db = self.client.sinaweibo
+        #     self.outputName = "techWeiboContent"
+        # else:
+        #     raise Exception("Given database name does not exist")
 
+        self.db = self.client.sina
+        self.outputName = "sinaWeiboContent"
         print "collection names: ", self.db.collection_names()
         self.Tweets = self.db.micro_blog
         self.cursor = self.Tweets.find()
