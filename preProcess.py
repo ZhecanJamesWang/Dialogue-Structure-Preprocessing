@@ -58,11 +58,11 @@ class PreProcess(object):
         return all(u'\u4e00' <= char <= u'\u9fff' for char in text)
 
     def writeToFile(self):
-        if self.firstSave:
-            if os.path.isfile(conf["outputDir"] + self.outputName + ".txt"):
-                now = str(datetime.datetime.now())
-                shutil.move(conf["outputDir"] + self.outputName + ".txt", conf["preOutputDir"] + self.outputName + now + ".txt" )
-            self.firstSave = False
+        # if self.firstSave:
+        #     if os.path.isfile(conf["outputDir"] + self.outputName + ".txt"):
+        #         now = str(datetime.datetime.now())
+        #         shutil.move(conf["outputDir"] + self.outputName + ".txt", conf["preOutputDir"] + self.outputName + now + ".txt" )
+        #     self.firstSave = False
 
         with codecs.open(conf["outputDir"] + self.outputName + ".txt", "a", encoding="utf-8") as f:  
             for sentence in self.contentList:
