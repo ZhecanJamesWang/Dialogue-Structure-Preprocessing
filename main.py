@@ -1,5 +1,5 @@
 from preProcess import PreProcess
-from model import Model
+# from model import Model
 
 def main():
     # print "start running preProcessing.run()"
