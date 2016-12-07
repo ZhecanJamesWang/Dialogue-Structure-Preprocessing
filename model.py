@@ -16,24 +16,17 @@ import itertools
 import matplotlib.pyplot as plt
 import os
 from configure import configure as conf
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
- 
-class DocReader(object):
-    """ class of large text reader"""
-    def __init__(self, dirname):
-        self.dirname = dirname
- 
-    def __iter__(self):
-        for fname in os.listdir(self.dirname):
-            for line in open(os.path.join(self.dirname, fname)):
-                yield line.split()
+import utility as ut
+# logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
  
 class Model(object):
     """ class of word2vec model"""
     def __init__(self):        
+        # hyper-parameters
         self.sizes = conf["sizes"]
         self.min_counts = conf["min_counts"]
         self.workers = conf["workers"]
+        self.window = conf["window"]
 
         self.preload = conf["preload"]
         self.debug = conf["debug"]
@@ -44,19 +37,20 @@ class Model(object):
         self.model = None
         self.maxScore = -100
         self.similarityArr = []
-
+        self.currComb = None
+        
     def generateComb(self):
         self.comb = list(itertools.product(self.sizes, self.min_counts, self.workers))
 
     def initData(self):
-        self.data = DocReader('./data/trainData/') # a memory-friendly iterator
+        self.data = ut.DocReader('./data/trainData/') # a memory-friendly iterator
         print "finish init data"
 
 
     def train(self):
         print "train model with "
         print self.currComb
-        self.model = gensim.models.Word2Vec(self.data, size = self.sizes[0], min_count = self.min_counts[0], workers = self.workers[0])
+        self.model = gensim.models.Word2Vec(self.data, size = self.sizes[0], min_count = self.min_counts[0], workers = self.workers[0], window = self.window[0])
 
 
     def saveModel(self):
@@ -83,8 +77,7 @@ class Model(object):
         self.preload = False
         self.generateComb()
         for comb in self.comb:
-            print "comb: "
-            print comb
+            print "comb: ", comb
             self.currComb = list(comb)
             score = self.test()
 
@@ -163,14 +156,12 @@ class Model(object):
 
 
     def run(self):
-        pass
         # self.initData()
         # self.train()
         # self.saveModel()
         # self.gridSearch()
         # self.test()
-
-
+        pass
 
 if __name__ == '__main__':
     Model().run()

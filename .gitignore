@@ -1,0 +1,9 @@
+*.png
+*.jpg
+*.pts
+*.p
+*.npy
+*.pyc
+.DS_Store
+data/
+
