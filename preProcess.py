@@ -6,7 +6,7 @@ Preprocess.py. The Data Preprocessing Workflow Before Word2Vec Model Training
 
 """
 print(__doc__)
-import pandas
+# import pandas
 from pymongo import MongoClient
 import codecs  
 import jieba
